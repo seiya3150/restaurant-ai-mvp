@@ -12,7 +12,10 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-akari-paper">
       <section className="relative overflow-hidden bg-akari-red text-white">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1800&q=80')] bg-cover bg-center opacity-25" />
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-25"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1800&q=80')" }}
+        />
         <div className="relative mx-auto flex min-h-[66vh] w-full max-w-6xl flex-col justify-end px-4 pb-12 pt-24">
           <p className="mb-3 text-sm font-bold">飲食店AI導入支援 MVP</p>
           <h1 className="max-w-3xl text-4xl font-black leading-tight sm:text-6xl">
