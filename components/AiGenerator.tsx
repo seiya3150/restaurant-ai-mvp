@@ -5,9 +5,9 @@ import { useMemo, useState, type FormEvent } from "react";
 
 const samples = {
   google_review_reply:
-    "温かいお言葉をありがとうございます。ハンバーグはご来店直前に丁寧に成形し、鉄板で焼き上げています。ソースまで楽しんでいただけて、とても励みになります。またのお越しを心よりお待ちしております。",
+    "この度はご来店いただき、また貴重なご意見をありがとうございます。お待たせしてしまい申し訳ございませんでした。混雑時のご案内と提供順の確認を見直し、より安心してお食事いただけるよう改善してまいります。また機会をいただけましたら幸いです。",
   instagram_post:
-    "本日のおすすめは、鉄板デミグラスハンバーグです。湯気までおいしい焼きたてを、季節野菜と一緒にご用意しています。お席は夕方が少しゆったりめです。ご予約はプロフィールのリンクからどうぞ。",
+    "今夜のおすすめは、鉄板デミグラスハンバーグです。焼きたての香りと、毎朝仕込むソースの深い味わいをぜひお楽しみください。金曜の夜は19時台に少しお席があります。ご予約はプロフィールのリンクからどうぞ。",
   line_broadcast:
     "こんにちは、洋食キッチン あかりです。本日は雨の日限定で、ディナーご利用の方に自家製プリンを小さくサービスします。お仕事帰りに、あたたかい鉄板メニューでひと息つきませんか。",
   menu_copy:
@@ -16,9 +16,9 @@ const samples = {
 
 const labels = {
   google_review_reply: "Google口コミ返信",
-  instagram_post: "Instagram投稿文",
-  line_broadcast: "LINE配信文",
-  menu_copy: "メニューコピー"
+  instagram_post: "Instagram投稿",
+  line_broadcast: "LINE配信",
+  menu_copy: "メニュー改善"
 };
 
 type Task = keyof typeof samples;
@@ -29,68 +29,56 @@ export function AiGenerator({ storeInfo }: { storeId: string; storeInfo: string 
   const [loading, setLoading] = useState(false);
 
   const hint = useMemo(() => {
-    if (task === "google_review_reply") return "口コミ本文を入れると、炎上しにくい返信の型で作れます。";
-    if (task === "instagram_post") return "投稿目的と料理名を入れると、来店導線のある文章になります。";
-    if (task === "line_broadcast") return "雨の日、平日夜、記念日などの目的を入れると配信に使いやすくなります。";
-    return "料理名と特徴を入れると、メニュー表にそのまま使えるコピーになります。";
+    if (task === "google_review_reply") return "例: 待ち時間が長かった、料理が遅かった、接客は良かった";
+    if (task === "instagram_post") return "例: 金曜夜の予約を増やしたい、雨の日の来店を増やしたい";
+    if (task === "line_broadcast") return "例: 近隣のお客様に今日の空席を案内したい";
+    return "例: ハンバーグの注文率を上げたい、単価を上げたい";
   }, [task]);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
     window.setTimeout(() => {
-      setOutput(`${samples[task]}\n\n---\nデモ生成: ${storeInfo.split("\n")[0]} の店舗情報をもとにしたサンプルです。`);
+      setOutput(`${samples[task]}\n\n---\nデモ生成: ${storeInfo.split("\n")[0]} の集客文脈に合わせたサンプルです。`);
       setLoading(false);
-    }, 420);
+    }, 360);
   }
 
   return (
     <section className="rounded-lg border border-akari-line bg-white p-4 shadow-warm sm:p-5">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
-          <p className="text-xs font-bold uppercase tracking-wide text-akari-red">AI Demo</p>
-          <h2 className="text-xl font-black text-akari-ink">AI文章生成</h2>
+          <p className="text-xs font-black uppercase tracking-wide text-akari-red">AI Growth Writer</p>
+          <h2 className="text-xl font-black text-akari-ink">売上につながる文章を作る</h2>
+          <p className="mt-1 text-xs leading-5 text-akari-muted">口コミ、SNS、LINE、メニュー改善を1つの流れで回します。</p>
         </div>
-        <Sparkles className="text-akari-gold" size={24} />
+        <Sparkles className="text-akari-gold" size={26} />
       </div>
       <form className="grid gap-3" onSubmit={submit}>
-        <label className="grid gap-1.5">
-          <span className="text-xs font-bold text-akari-muted">生成タイプ</span>
-          <select
-            className="rounded-lg border border-akari-line bg-white px-3 py-2.5 text-sm outline-none focus:border-akari-red focus:ring-2 focus:ring-akari-red/15"
-            name="task"
-            onChange={(event) => setTask(event.target.value as Task)}
-            value={task}
-          >
-            {Object.entries(labels).map(([value, label]) => (
-              <option value={value} key={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <label className="grid gap-1.5">
-            <span className="text-xs font-bold text-akari-muted">料理名</span>
-            <input className="rounded-lg border border-akari-line bg-white px-3 py-2.5 text-sm outline-none focus:border-akari-red focus:ring-2 focus:ring-akari-red/15" placeholder="鉄板ハンバーグ" />
-          </label>
-          <label className="grid gap-1.5">
-            <span className="text-xs font-bold text-akari-muted">口調</span>
-            <input className="rounded-lg border border-akari-line bg-white px-3 py-2.5 text-sm outline-none focus:border-akari-red focus:ring-2 focus:ring-akari-red/15" defaultValue="温かく誠実" />
-          </label>
+        <div className="grid grid-cols-2 gap-2">
+          {Object.entries(labels).map(([value, label]) => (
+            <button
+              className={`rounded-lg border px-3 py-2 text-xs font-black transition ${task === value ? "border-akari-red bg-akari-red text-white" : "border-akari-line bg-akari-soft text-akari-brown"}`}
+              key={value}
+              onClick={() => setTask(value as Task)}
+              type="button"
+            >
+              {label}
+            </button>
+          ))}
         </div>
         <label className="grid gap-1.5">
-          <span className="text-xs font-bold text-akari-muted">口コミ本文・投稿目的</span>
+          <span className="text-xs font-bold text-akari-muted">目的・本文</span>
           <textarea className="min-h-24 resize-y rounded-lg border border-akari-line bg-white px-3 py-2.5 text-sm outline-none focus:border-akari-red focus:ring-2 focus:ring-akari-red/15" placeholder={hint} />
         </label>
         <button className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-akari-red px-4 text-sm font-bold text-white shadow-warm transition hover:bg-akari-darkRed" type="submit">
           <Sparkles size={18} />
-          {loading ? "生成中..." : "サンプル生成"}
+          {loading ? "生成中..." : "集客文を生成"}
         </button>
       </form>
       <div className="mt-4 rounded-lg border border-akari-line bg-akari-soft p-4">
         <div className="mb-2 flex items-center justify-between gap-3">
-          <p className="text-sm font-bold text-akari-brown">生成結果</p>
+          <p className="text-sm font-black text-akari-brown">{labels[task]}の生成結果</p>
           <button className="inline-flex items-center gap-1 text-xs font-bold text-akari-red" type="button">
             <Copy size={14} />
             コピー

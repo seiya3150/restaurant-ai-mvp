@@ -1,11 +1,11 @@
-import { ArrowRight, BarChart3, Bot, CreditCard, Store } from "lucide-react";
+import { ArrowRight, BarChart3, Bot, CheckCircle2, CreditCard, Store } from "lucide-react";
 import Link from "next/link";
 
 const cards = [
-  { href: "/s/sample-bistro", icon: Store, title: "公開店舗ページ", body: "写真、口コミ要約、地図、電話、LINE、予約までスマホで見やすく表示。" },
-  { href: "/admin", icon: Bot, title: "管理画面", body: "店舗情報、営業時間、写真、メニューを編集し、AI文章生成をデモ体験。" },
-  { href: "/admin/reports", icon: BarChart3, title: "月次レポート", body: "閲覧数とクリックをカードとグラフで確認し、改善提案まで表示。" },
-  { href: "/pricing", icon: CreditCard, title: "料金ページ", body: "ライト、スタンダード、プレミアムの料金表とデモ申込ボタン。" }
+  { href: "/s/sample-bistro", icon: Store, title: "公式プロフィール", body: "写真、口コミ要約、地図、電話、LINE、予約まで来店前の不安を減らす店舗ページ。" },
+  { href: "/admin", icon: Bot, title: "集客ダッシュボード", body: "今日やるべき口コミ返信、SNS投稿、LINE配信、メニュー改善をカードで整理。" },
+  { href: "/admin/reports", icon: BarChart3, title: "月次レポート", body: "閲覧数、電話、LINE、予約クリックを前月比つきで見える化。" },
+  { href: "/pricing", icon: CreditCard, title: "月額プラン", body: "ライト、スタンダード、プレミアムを比較し、継続価値を伝える料金表。" }
 ];
 
 export default function Home() {
@@ -16,13 +16,15 @@ export default function Home() {
           className="absolute inset-0 bg-cover bg-center opacity-25"
           style={{ backgroundImage: "url('https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1800&q=80')" }}
         />
-        <div className="relative mx-auto flex min-h-[66vh] w-full max-w-6xl flex-col justify-end px-4 pb-12 pt-24">
-          <p className="mb-3 text-sm font-bold">飲食店AI導入支援 MVP</p>
+        <div className="absolute left-[-110px] top-20 h-72 w-72 rounded-full bg-white/10" />
+        <div className="absolute right-[-90px] top-[-80px] h-72 w-72 rounded-full bg-white/10" />
+        <div className="relative mx-auto flex min-h-[76vh] w-full max-w-6xl flex-col justify-end px-4 pb-12 pt-24">
+          <p className="mb-3 text-sm font-bold tracking-wide text-white/85">飲食店AI集客ダッシュボード</p>
           <h1 className="max-w-3xl text-4xl font-black leading-tight sm:text-6xl">
-            店舗ページ、AI文章生成、月次レポートをすぐ見えるデモに。
+            口コミ、SNS、LINE、予約導線を毎月改善する。
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-white/90">
-            Supabase、OpenAI、Stripeが未設定でも主要画面を確認できます。まずは営業提案やMVP検証に使える見た目と導線を整えています。
+            単なる文章生成ではなく、飲食店オーナーが「今日なにをすれば集客が伸びるか」まで見えるMVPです。未接続でもデモデータで全画面を確認できます。
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-white px-5 text-sm font-black text-akari-red shadow-warm" href="/s/sample-bistro">
@@ -32,6 +34,14 @@ export default function Home() {
             <Link className="inline-flex h-12 items-center justify-center rounded-lg border border-white/40 px-5 text-sm font-black text-white" href="/admin">
               管理画面へ
             </Link>
+          </div>
+          <div className="mt-8 grid gap-2 sm:grid-cols-3">
+            {["口コミ返信の放置を減らす", "LINE配信で当日来店を作る", "月次レポートで継続価値を見せる"].map((item) => (
+              <div className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/15 px-3 py-2 text-xs font-bold backdrop-blur" key={item}>
+                <CheckCircle2 size={16} />
+                {item}
+              </div>
+            ))}
           </div>
         </div>
       </section>
